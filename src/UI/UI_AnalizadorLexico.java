@@ -97,6 +97,11 @@ public class UI_AnalizadorLexico extends javax.swing.JFrame {
         btnExit.setFont(new java.awt.Font("Candara", 1, 16)); // NOI18N
         btnExit.setForeground(new java.awt.Color(255, 255, 255));
         btnExit.setText("Salir");
+        btnExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExitActionPerformed(evt);
+            }
+        });
 
         btnInputNewExpression.setBackground(new java.awt.Color(102, 153, 255));
         btnInputNewExpression.setFont(new java.awt.Font("Candara", 1, 16)); // NOI18N
@@ -218,7 +223,7 @@ public class UI_AnalizadorLexico extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "No ingreso una expresión!");
         } else {
             expression = textFieldExpression.getText().toUpperCase();
-            lblViewExpression.setText("La expresión a analizar es: " + expression);
+            lblViewExpression.setText("La expresión a analizar es: " + lblExpression);
             lblViewExpression.setVisible(true);
         }
     }//GEN-LAST:event_btnEvaluateExpressionActionPerformed
@@ -228,10 +233,7 @@ public class UI_AnalizadorLexico extends javax.swing.JFrame {
         if( evaluate() ) {
             JOptionPane.showMessageDialog(null, "No ingreso una expresión!");
         } else {
-            if( evaluateTextArea() ) {
-                txtAreaExpression.setText("");
-                txtAreaOperators.setText("");
-            }
+                
             toList( lblExpression ).forEach( ( character ) -> {
                 if( isIdentifier(character) ) {
                     txtAreaExpression.append(character + ": es un identificador\n");
@@ -263,8 +265,9 @@ public class UI_AnalizadorLexico extends javax.swing.JFrame {
         if( evaluate() ) {
             JOptionPane.showMessageDialog(null, "No ingreso una expresión a corregir!");
         } else {
-            newExpression = removeIncongruity(expression);
-            expression = newExpression;
+            
+            newExpression = removeIncongruity(lblExpression);
+            lblExpression = newExpression;
             lblViewExpression.setText("La expresión corregida es: " + newExpression ); 
             
             toList( newExpression ).forEach( ( character ) -> {
@@ -301,6 +304,15 @@ public class UI_AnalizadorLexico extends javax.swing.JFrame {
         txtAreaExpression.setText("");
         txtAreaOperators.setText("");
     }//GEN-LAST:event_btnInputNewExpressionActionPerformed
+
+    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
+        int op = JOptionPane.showConfirmDialog(null, "¿Desea cerrar el programa?");
+        if( op == 0 ) {
+            System.exit(0);
+        } else {
+            return;   
+        }
+    }//GEN-LAST:event_btnExitActionPerformed
  
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnalyzerExpression;
